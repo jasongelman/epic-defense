@@ -11,7 +11,6 @@ export function GameUI({ onSelectTower, selectedTower, placedTower, onUpgrade, o
             borderRadius: '8px',
             cursor: 'pointer',
             fontWeight: 'bold',
-            fontWeight: 'bold',
             transition: 'all 0.2s',
             display: 'flex',
             flexDirection: 'column',
@@ -51,11 +50,6 @@ export function GameUI({ onSelectTower, selectedTower, placedTower, onUpgrade, o
         };
         return <div style={style}></div>;
     };
-
-    // ... (UPGRADE PANEL code omitted for brevity if unchanged, but I need to be careful with replace_file_content matching) ...
-    // ... Actually, I'll just replace the button mapping part and the functions at the top.
-
-    // (Skip to button mapping replacement)
 
     // UPGRADE PANEL
     if (placedTower) {
@@ -141,24 +135,30 @@ export function GameUI({ onSelectTower, selectedTower, placedTower, onUpgrade, o
     }
 
     // BUILD PANEL (Standard)
+    const isVertical = layout === 'vertical';
+
     return (
         <div style={{
             display: 'flex',
+            flexDirection: isVertical ? 'column' : 'row',
             gap: '10px',
-            marginTop: '10px',
+            marginTop: isVertical ? '0' : '10px',
+            marginLeft: isVertical ? '10px' : '0',
             padding: '10px',
             backgroundColor: 'rgba(0,0,0,0.8)',
             borderRadius: '12px',
             alignItems: 'center',
             backdropFilter: 'blur(5px)',
-            maxWidth: '100vw',
-            overflowX: 'auto',
+            maxWidth: isVertical ? '140px' : '100vw',
+            maxHeight: isVertical ? '100vh' : 'auto',
+            width: isVertical ? '140px' : '100%',
+            overflowX: isVertical ? 'hidden' : 'auto',
+            overflowY: isVertical ? 'auto' : 'hidden',
             WebkitOverflowScrolling: 'touch',
-            scrollbarWidth: 'none', // Firefox
-            msOverflowStyle: 'none', // IE/Edge
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
         }}>
             <style jsx>{`
-                /* Hide scrollbar for Chrome/Safari/Opera */
                 div::-webkit-scrollbar {
                     display: none;
                 }
@@ -174,7 +174,7 @@ export function GameUI({ onSelectTower, selectedTower, placedTower, onUpgrade, o
                     borderRadius: '8px',
                     cursor: 'pointer',
                     fontWeight: 'bold',
-                    marginRight: '10px',
+                    width: isVertical ? '100%' : 'auto',
                     height: '50px',
                     flexShrink: 0,
                 }}
@@ -191,12 +191,12 @@ export function GameUI({ onSelectTower, selectedTower, placedTower, onUpgrade, o
                     borderRadius: '8px',
                     cursor: 'pointer',
                     fontWeight: 'bold',
-                    marginRight: '15px',
+                    width: isVertical ? '100%' : 'auto',
                     height: '50px',
                     flexShrink: 0,
                 }}
             >
-                {isFastForward ? '1x Speed' : '2x Speed'}
+                {isFastForward ? '1x' : '2x'}
             </button>
 
             {TOWER_DATA.map(t => (
@@ -218,7 +218,7 @@ export function GameUI({ onSelectTower, selectedTower, placedTower, onUpgrade, o
                         fontSize: '0.7rem',
                         color: '#fff',
                         zIndex: 1,
-                        whiteSpace: 'normal', // Allow wrap
+                        whiteSpace: 'normal',
                         lineHeight: '1',
                         textAlign: 'center'
                     }}>
@@ -242,7 +242,13 @@ export function GameUI({ onSelectTower, selectedTower, placedTower, onUpgrade, o
                 </button>
             ))}
 
-            <div style={{ width: '1px', height: '40px', background: 'rgba(255,255,255,0.2)', margin: '0 10px' }}></div>
+            <div style={{
+                width: isVertical ? '80%' : '1px',
+                height: isVertical ? '1px' : '40px',
+                background: 'rgba(255,255,255,0.2)',
+                margin: '0 10px',
+                flexShrink: 0
+            }}></div>
 
             <button
                 onClick={onQuit}
@@ -255,6 +261,7 @@ export function GameUI({ onSelectTower, selectedTower, placedTower, onUpgrade, o
                     cursor: 'pointer',
                     fontWeight: 'bold',
                     height: '50px',
+                    width: isVertical ? '100%' : 'auto',
                     flexShrink: 0,
                 }}
             >
