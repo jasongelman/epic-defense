@@ -1,6 +1,8 @@
 import { TOWER_DATA } from '../data/EncyclopediaData';
 
 export function GameUI({ onSelectTower, selectedTower, placedTower, onUpgrade, onSell, onDeselect, paused, onTogglePause, onToggleSpeed, isFastForward, onQuit, layout = 'horizontal' }) {
+    const isVertical = layout === 'vertical';
+
     const getTowerStyle = (tower) => {
         const isSelected = selectedTower === tower.id;
         return {
@@ -59,35 +61,51 @@ export function GameUI({ onSelectTower, selectedTower, placedTower, onUpgrade, o
         return (
             <div style={{
                 display: 'flex',
-                gap: '20px',
+                flexDirection: isVertical ? 'column' : 'row',
+                gap: '15px',
                 padding: '20px',
                 backgroundColor: 'rgba(52, 73, 94, 0.95)',
                 borderRadius: '12px',
                 alignItems: 'center',
                 color: 'white',
-                border: '2px solid #3498db'
+                border: '2px solid #3498db',
+                maxWidth: isVertical ? '140px' : '100vw',
+                width: isVertical ? '140px' : 'auto',
+                overflowY: isVertical ? 'auto' : 'visible',
             }}>
                 {/* Stats */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-                    <h3 style={{ margin: 0, color: '#f1c40f' }}>{placedTower.name} (Lvl {placedTower.level})</h3>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', fontSize: '0.9rem' }}>
-                        <span>⚔️ Dmg: {Math.floor(placedTower.damage)}</span>
-                        <span>🏹 Rng: {Math.floor(placedTower.range)}</span>
-                        <span>⏩ Spd: {placedTower.fireRate.toFixed(1)}/s</span>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', textAlign: 'center', width: '100%' }}>
+                    <h3 style={{ margin: 0, color: '#f1c40f', fontSize: '1rem' }}>{placedTower.name}</h3>
+                    <div style={{ fontSize: '0.8rem', color: '#bdc3c7' }}>Lvl {placedTower.level}</div>
+
+                    <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: isVertical ? '1fr' : '1fr 1fr',
+                        gap: '5px',
+                        fontSize: '0.8rem',
+                        marginTop: '5px'
+                    }}>
+                        <span>⚔️ {Math.floor(placedTower.damage)}</span>
+                        <span>🏹 {Math.floor(placedTower.range)}</span>
+                        <span>⏩ {placedTower.fireRate.toFixed(1)}/s</span>
                     </div>
                 </div>
 
                 {/* Divider */}
-                <div style={{ width: '1px', height: '50px', backgroundColor: 'rgba(255,255,255,0.2)' }}></div>
+                <div style={{
+                    width: isVertical ? '80%' : '1px',
+                    height: isVertical ? '1px' : '50px',
+                    backgroundColor: 'rgba(255,255,255,0.2)'
+                }}></div>
 
                 {/* Actions */}
-                <div style={{ display: 'flex', gap: '10px' }}>
+                <div style={{ display: 'flex', flexDirection: isVertical ? 'column' : 'row', gap: '10px', width: '100%' }}>
 
                     {!isMax ? (
                         <button
                             onClick={onUpgrade}
                             style={{
-                                padding: '10px 20px',
+                                padding: '10px',
                                 background: '#27ae60',
                                 color: 'white',
                                 border: 'none',
@@ -96,47 +114,52 @@ export function GameUI({ onSelectTower, selectedTower, placedTower, onUpgrade, o
                                 fontWeight: 'bold',
                                 display: 'flex',
                                 flexDirection: 'column',
-                                alignItems: 'center'
+                                alignItems: 'center',
+                                width: '100%'
                             }}
                         >
-                            <span>UPGRADE ⬆️</span>
+                            <span>UPGRADE</span>
                             <span style={{ fontSize: '0.8rem', opacity: 0.9 }}>${nextCost}</span>
                         </button>
                     ) : (
-                        <div style={{ padding: '10px', color: '#2ecc71', fontWeight: 'bold' }}>MAX LEVEL</div>
+                        <div style={{ padding: '10px', color: '#2ecc71', fontWeight: 'bold', textAlign: 'center' }}>MAXED</div>
                     )}
 
                     <button
                         onClick={onSell}
                         style={{
-                            padding: '10px 20px',
+                            padding: '10px',
                             background: '#c0392b',
                             color: 'white',
                             border: 'none',
                             borderRadius: '8px',
                             cursor: 'pointer',
-                            fontWeight: 'bold'
+                            fontWeight: 'bold',
+                            width: '100%'
                         }}
                     >
                         SELL 💰
                     </button>
-
-                    <button
-                        onClick={onQuit} // Acting as 'close' since onDeselect passed as null fallback? No, let's use a standard close button
-                    // ACTUALLY, onQuit is 'Quit to Menu'. We need a specific CLOSE functionality or just click away.
-                    // Let's repurpose onSelectTower(null) context? No, just use passed onDeselect equivalent (we didn't pass it yet properly in prev step props destructuring? Check below)
-                    >
-                    </button>
                 </div>
 
-                <button onClick={onQuit} style={{ marginLeft: 'auto', background: 'transparent', border: 'none', fontSize: '1.5rem', cursor: 'pointer' }}>🚪</button>
+                <button
+                    onClick={onQuit}
+                    style={{
+                        marginLeft: isVertical ? '0' : 'auto',
+                        marginTop: isVertical ? '10px' : '0',
+                        background: 'transparent',
+                        border: 'none',
+                        fontSize: '1.5rem',
+                        cursor: 'pointer'
+                    }}
+                >
+                    🚪
+                </button>
             </div>
         );
     }
 
     // BUILD PANEL (Standard)
-    const isVertical = layout === 'vertical';
-
     return (
         <div style={{
             display: 'flex',
