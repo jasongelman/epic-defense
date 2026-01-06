@@ -69,14 +69,14 @@ export class HeroTower extends Tower {
 
             // console.log(`Hero Draw: Frame ${this.frame} (${col},${row}) - SX: ${sx} SY: ${sy} W: ${frameW} H: ${frameH}`);
 
-            // Draw Frame (Size 100x100, centered - slightly larger)
-            ctx.drawImage(sprite, sx, sy, frameW, frameH, this.x - 50, this.y - 50, 100, 100);
+            // DEBUG: Draw WHOLE image to verify source
+            ctx.drawImage(sprite, 0, 0, width, height, this.x - 50, this.y - 50, 100, 100);
 
             // DEBUG: Render stats text
             ctx.fillStyle = 'white';
-            ctx.font = '10px Arial';
+            ctx.font = '12px Arial';
             ctx.textAlign = 'center';
-            ctx.fillText(`F:${this.frame} W:${width} H:${height}`, this.x, this.y + 50);
+            ctx.fillText(`W:${width} H:${height}`, this.x, this.y + 50);
             ctx.fillText(sprite.complete ? 'Loaded' : 'Loading...', this.x, this.y + 60);
         } else {
             // Fallback
