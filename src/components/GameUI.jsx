@@ -132,8 +132,19 @@ export function GameUI({ onSelectTower, selectedTower, placedTower, onUpgrade, o
             backgroundColor: 'rgba(0,0,0,0.8)',
             borderRadius: '12px',
             alignItems: 'center',
-            backdropFilter: 'blur(5px)'
+            backdropFilter: 'blur(5px)',
+            maxWidth: '100vw',
+            overflowX: 'auto',
+            WebkitOverflowScrolling: 'touch',
+            scrollbarWidth: 'none', // Firefox
+            msOverflowStyle: 'none', // IE/Edge
         }}>
+            <style jsx>{`
+                /* Hide scrollbar for Chrome/Safari/Opera */
+                div::-webkit-scrollbar {
+                    display: none;
+                }
+            `}</style>
             <button
                 onClick={onQuit}
                 style={{

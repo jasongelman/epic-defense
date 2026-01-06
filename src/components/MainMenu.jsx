@@ -67,6 +67,29 @@ export function MainMenu({ onNavigate }) {
                     grid-template-columns: repeat(2, 1fr);
                     gap: 2rem;
                     max-width: 800px;
+                    width: 90%;
+                }
+                @media (max-width: 768px) {
+                    .menu-grid {
+                        grid-template-columns: 1fr;
+                        gap: 1rem;
+                    }
+                    .menu-title {
+                        font-size: 2rem;
+                        margin-bottom: 2rem;
+                    }
+                    .menu-btn {
+                        min-height: 120px;
+                        padding: 1.5rem;
+                        flex-direction: row;
+                        align-items: center;
+                        justify-content: flex-start;
+                        gap: 20px;
+                    }
+                    .icon {
+                        margin-bottom: 0;
+                        font-size: 3rem;
+                    }
                 }
                 .menu-btn {
                     background: rgba(255, 255, 255, 0.1);
