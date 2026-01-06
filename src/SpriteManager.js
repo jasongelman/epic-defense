@@ -5,7 +5,7 @@ export class SpriteManager {
     static ASSETS = {
         'ninja': 'assets/Ninja Tower sprite sheet.png',
         'naruto': 'assets/Naruto Tower sprite sheet.png',
-        'hero': 'assets/hero.png',
+        'hero': 'assets/hyrule_hero.png', // Corrected asset path
         'trooper': 'assets/Trooper Tower sprite sheet.png',
         'stinker': 'assets/Stinker Tower sprite sheet.png',
         'enemy_basic': 'assets/Basic Poop sprite sheet.png',
