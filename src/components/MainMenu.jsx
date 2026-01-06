@@ -32,7 +32,7 @@ export function MainMenu({ onNavigate }) {
                 .main-menu {
                     width: 100vw;
                     height: 100vh;
-                    background: url('/assets/Splash Screen.png') no-repeat center center/cover;
+                    background: url('assets/Splash Screen.png') no-repeat center center/cover;
                     display: flex;
                     flex-direction: column;
                     align-items: center;
