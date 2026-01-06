@@ -174,7 +174,7 @@ export function GameUI({ onSelectTower, selectedTower, placedTower, onUpgrade, o
                     borderRadius: '8px',
                     cursor: 'pointer',
                     fontWeight: 'bold',
-                    width: isVertical ? '100%' : 'auto',
+                    width: isVertical ? '90px' : 'auto',
                     height: '50px',
                     flexShrink: 0,
                 }}
@@ -191,7 +191,7 @@ export function GameUI({ onSelectTower, selectedTower, placedTower, onUpgrade, o
                     borderRadius: '8px',
                     cursor: 'pointer',
                     fontWeight: 'bold',
-                    width: isVertical ? '100%' : 'auto',
+                    width: isVertical ? '90px' : 'auto',
                     height: '50px',
                     flexShrink: 0,
                 }}
@@ -261,7 +261,7 @@ export function GameUI({ onSelectTower, selectedTower, placedTower, onUpgrade, o
                     cursor: 'pointer',
                     fontWeight: 'bold',
                     height: '50px',
-                    width: isVertical ? '100%' : 'auto',
+                    width: isVertical ? '90px' : 'auto',
                     flexShrink: 0,
                 }}
             >
