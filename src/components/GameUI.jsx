@@ -4,8 +4,8 @@ export function GameUI({ onSelectTower, selectedTower, placedTower, onUpgrade, o
     const getTowerStyle = (tower) => {
         const isSelected = selectedTower === tower.id;
         return {
-            padding: '5px',
-            backgroundColor: isSelected ? '#34495e' : '#222', // Darker background for contrast
+            padding: '0', // Remove padding to let image fill
+            backgroundColor: isSelected ? '#34495e' : '#222',
             color: '#fff',
             border: isSelected ? '2px solid #f1c40f' : '2px solid #444',
             borderRadius: '8px',
@@ -16,29 +16,49 @@ export function GameUI({ onSelectTower, selectedTower, placedTower, onUpgrade, o
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            width: '80px',
-            height: '100px',
-            justifyContent: 'space-between',
+            width: '90px', // Slightly wider
+            height: '110px',
+            position: 'relative', // For absolute overlay
+            overflow: 'hidden', // Clip image corners
             flexShrink: 0,
         };
     };
 
     const renderSprite = (item) => {
+        // If it's a simple image
         if (!item.frameConfig) {
-            return <img src={item.sprite} alt={item.name} style={{ width: '40px', height: '40px', objectFit: 'contain' }} />;
+            return <img src={item.sprite} alt={item.name} style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', top: 0, left: 0, zIndex: 0, opacity: 0.6 }} />;
         }
+        // If it's a sprite sheet (trickier to "cover" but we'll try to center the first frame)
         const { cols, rows } = item.frameConfig;
         const style = {
-            width: '40px',
-            height: '40px',
+            width: '100%',
+            height: '100%',
+            position: 'absolute',
+            top: 0,
+            left: 0,
             backgroundImage: `url("${item.sprite}")`,
+            backgroundPosition: 'center center', // Try to center it?
+            // Sprite sheets are hard to "cover" perfectly without knowing individual frame size relative to sheet.
+            // Let's assume standard behavior approx fits. Or just show it centered.
+            backgroundSize: `${cols * 100}% ${rows * 100}%`, // This effectively zooms in to one frame size... wait.
+            // If cols=4, backgroundSize 400%. 
+            // We want the frame to fill the container. 
+            // Actually, for sprites, let's keep it 'contain' centered but large.
             backgroundPosition: '0 0',
-            backgroundSize: `${cols * 100}% ${rows * 100}%`,
             backgroundRepeat: 'no-repeat',
-            margin: '5px 0'
+            zIndex: 0,
+            opacity: 0.7,
+            transform: 'scale(1.5)', // Zoom in a bit to fill better
+            transformOrigin: 'top left'
         };
         return <div style={style}></div>;
     };
+
+    // ... (UPGRADE PANEL code omitted for brevity if unchanged, but I need to be careful with replace_file_content matching) ...
+    // ... Actually, I'll just replace the button mapping part and the functions at the top.
+
+    // (Skip to button mapping replacement)
 
     // UPGRADE PANEL
     if (placedTower) {
@@ -189,9 +209,39 @@ export function GameUI({ onSelectTower, selectedTower, placedTower, onUpgrade, o
                     style={getTowerStyle(t)}
                     title={t.name}
                 >
-                    <span style={{ fontSize: '0.7rem', color: '#bdc3c7' }}>{t.name.split(' ')[0]}</span>
                     {renderSprite(t)}
-                    <span style={{ fontSize: '0.8rem', color: '#f1c40f' }}>${t.cost}</span>
+
+                    <div style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        padding: '2px',
+                        background: 'rgba(0,0,0,0.6)',
+                        fontSize: '0.7rem',
+                        color: '#fff',
+                        zIndex: 1,
+                        whiteSpace: 'normal', // Allow wrap
+                        lineHeight: '1',
+                        textAlign: 'center'
+                    }}>
+                        {t.name}
+                    </div>
+
+                    <div style={{
+                        position: 'absolute',
+                        bottom: 0,
+                        left: 0,
+                        width: '100%',
+                        padding: '2px',
+                        background: 'rgba(0,0,0,0.8)',
+                        fontSize: '0.85rem',
+                        color: '#f1c40f',
+                        zIndex: 1,
+                        fontWeight: 'bold'
+                    }}>
+                        ${t.cost}
+                    </div>
                 </button>
             ))}
 
