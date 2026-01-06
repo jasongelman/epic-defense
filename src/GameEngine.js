@@ -1,7 +1,7 @@
 import { Enemy } from './entities/Enemy';
 import { Projectile } from './entities/Projectile';
 import { NinjaTower } from './entities/towers/NinjaTower';
-import { HyruleTower } from './entities/towers/HyruleTower';
+import { HeroTower } from './entities/towers/HeroTower';
 import { TrooperTower } from './entities/towers/TrooperTower';
 import { StinkerTower } from './entities/towers/StinkerTower';
 import { NarutoTower } from './entities/towers/NarutoTower';
@@ -277,7 +277,7 @@ export class GameEngine {
     getTowerUnlockLevel(type) {
         switch (type) {
             case 'ninja': return 1;
-            case 'hyrule': return 2;
+            case 'hero': return 2;
             case 'trooper': return 3;
             case 'stinker': return 5;
             case 'naruto': return 1; // Always unlocked for cheat
@@ -342,7 +342,7 @@ export class GameEngine {
 
         switch (this.selectedTower) {
             case 'ninja': TowerClass = NinjaTower; cost = 150; break;
-            case 'hyrule': TowerClass = HyruleTower; cost = 300; break;
+            case 'hero': TowerClass = HeroTower; cost = 300; break;
             case 'trooper': TowerClass = TrooperTower; cost = 120; break;
             case 'stinker': TowerClass = StinkerTower; cost = 100; break;
             case 'naruto': TowerClass = NarutoTower; cost = 1000; break;

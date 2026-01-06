@@ -5,15 +5,33 @@ export class HeroTower extends Tower {
     constructor(x, y) {
         super(x, y);
         this.name = "Hyrule Hero";
-        this.range = 80; // Buffed Range
-        this.damage = 5; // Buffed Damage
+        this.range = 100; // Melee/Short Range (was 80)
+        this.damage = 20; // High Damage (was 5)
         this.fireRate = 1.5;
-        this.color = '#27ae60'; // Green
-        this.cost = 200;
+        this.color = '#2ecc71'; // Green
+        this.cost = 300; // Updated Cost (was 200)
+
+        // Animation State
+        this.frame = 0;
+        this.totalFrames = 28; // 7x4
+        this.frameTimer = 0;
+        this.frameInterval = 0.05;
     }
 
     update(dt, enemies) {
         const event = super.update(dt, enemies);
+
+        // Animate only if active
+        if (this.target) {
+            this.frameTimer += dt;
+            if (this.frameTimer >= this.frameInterval) {
+                this.frameTimer = 0;
+                this.frame = (this.frame + 1) % this.totalFrames;
+            }
+        } else {
+            this.frame = 0; // Reset to idle
+        }
+
         if (event && event.type === 'shoot') {
             return { ...event, sprite: 'slash' };
         }
@@ -26,23 +44,41 @@ export class HeroTower extends Tower {
             // Draw Base
             ctx.beginPath();
             ctx.arc(this.x, this.y, 30, 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+            ctx.fillStyle = this.getLevelColor();
             ctx.fill();
-            ctx.strokeStyle = '#fff';
+            ctx.strokeStyle = '#f1c40f'; // Gold Trigger
             ctx.lineWidth = 2;
             ctx.stroke();
 
-            ctx.drawImage(sprite, this.x - 45, this.y - 45, 90, 90);
+            // Config: 7 cols, 4 rows
+            const cols = 7;
+            const rows = 4;
+
+            const width = sprite.naturalWidth || sprite.width;
+            const height = sprite.naturalHeight || sprite.height;
+
+            const frameW = width / cols;
+            const frameH = height / rows;
+
+            const col = this.frame % cols;
+            const row = Math.floor(this.frame / cols);
+
+            const sx = col * frameW;
+            const sy = row * frameH;
+
+            // Draw Frame (Size 100x100, centered - slightly larger)
+            ctx.drawImage(sprite, sx, sy, frameW, frameH, this.x - 50, this.y - 50, 100, 100);
         } else {
             // Fallback
             ctx.fillStyle = this.color;
-            ctx.fillRect(this.x - this.size / 2, this.y - this.size / 2, this.size, this.size);
+            ctx.fillRect(this.x - 15, this.y - 15, 30, 30);
 
-            // Hat indicator
+            // Hat
+            ctx.fillStyle = '#2ecc71';
             ctx.beginPath();
-            ctx.moveTo(this.x - this.size / 2, this.y - this.size / 2);
-            ctx.lineTo(this.x + this.size / 2, this.y - this.size / 2);
-            ctx.lineTo(this.x, this.y - this.size);
+            ctx.moveTo(this.x - 15, this.y - 15);
+            ctx.lineTo(this.x + 15, this.y - 15);
+            ctx.lineTo(this.x, this.y - 40);
             ctx.fill();
         }
     }

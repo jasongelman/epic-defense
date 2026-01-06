@@ -16,15 +16,7 @@ export const TOWER_DATA = [
         cost: 200,
         sprite: 'assets/hero.png'
     },
-    {
-        id: 'hyrule',
-        name: 'Hyrule Hero',
-        cost: 300,
-        description: 'Legendary swordsman. Deals high melee damage.',
-        sprite: 'assets/hyrule_hero.png',
-        frameConfig: { cols: 7, rows: 4 }, // 28 frames
-        stats: { damage: 'High', range: 'Melee', speed: 'Fast' }
-    },
+
     {
         id: 'trooper',
         name: 'Galactic Trooper',
