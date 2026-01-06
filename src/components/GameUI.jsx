@@ -27,9 +27,9 @@ export function GameUI({ onSelectTower, selectedTower, placedTower, onUpgrade, o
     const renderSprite = (item) => {
         // If it's a simple image
         if (!item.frameConfig) {
-            return <img src={item.sprite} alt={item.name} style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', top: 0, left: 0, zIndex: 0, opacity: 0.6 }} />;
+            return <img src={item.sprite} alt={item.name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', position: 'absolute', top: 0, left: 0, zIndex: 0, opacity: 0.6 }} />;
         }
-        // If it's a sprite sheet (trickier to "cover" but we'll try to center the first frame)
+        // If it's a sprite sheet
         const { cols, rows } = item.frameConfig;
         const style = {
             width: '100%',
@@ -38,19 +38,16 @@ export function GameUI({ onSelectTower, selectedTower, placedTower, onUpgrade, o
             top: 0,
             left: 0,
             backgroundImage: `url("${item.sprite}")`,
-            backgroundPosition: 'center center', // Try to center it?
-            // Sprite sheets are hard to "cover" perfectly without knowing individual frame size relative to sheet.
-            // Let's assume standard behavior approx fits. Or just show it centered.
-            backgroundSize: `${cols * 100}% ${rows * 100}%`, // This effectively zooms in to one frame size... wait.
-            // If cols=4, backgroundSize 400%. 
-            // We want the frame to fill the container. 
-            // Actually, for sprites, let's keep it 'contain' centered but large.
+            // Focus on the first frame (0,0)
             backgroundPosition: '0 0',
+            // Scale the sheet so one frame fills the container
+            backgroundSize: `${cols * 100}% ${rows * 100}%`,
             backgroundRepeat: 'no-repeat',
             zIndex: 0,
             opacity: 0.7,
-            transform: 'scale(1.5)', // Zoom in a bit to fill better
-            transformOrigin: 'top left'
+            // Zoom in slightly to fill better, but keep centered
+            transform: 'scale(1.2)',
+            transformOrigin: 'center center'
         };
         return <div style={style}></div>;
     };
