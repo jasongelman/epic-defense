@@ -18,7 +18,8 @@ export function GameUI({ onSelectTower, selectedTower, placedTower, onUpgrade, o
             alignItems: 'center',
             width: '80px',
             height: '100px',
-            justifyContent: 'space-between'
+            justifyContent: 'space-between',
+            flexShrink: 0,
         };
     };
 
@@ -145,23 +146,7 @@ export function GameUI({ onSelectTower, selectedTower, placedTower, onUpgrade, o
                     display: none;
                 }
             `}</style>
-            <button
-                onClick={onQuit}
-                style={{
-                    padding: '10px 15px',
-                    backgroundColor: '#c0392b',
-                    color: '#fff',
-                    border: 'none',
-                    borderRadius: '8px',
-                    cursor: 'pointer',
-                    fontWeight: 'bold',
-                    marginRight: '15px',
-                    height: '50px'
-                }}
-                title="Quit to Menu"
-            >
-                🚪
-            </button>
+
             <button
                 onClick={onTogglePause}
                 style={{
@@ -173,7 +158,8 @@ export function GameUI({ onSelectTower, selectedTower, placedTower, onUpgrade, o
                     cursor: 'pointer',
                     fontWeight: 'bold',
                     marginRight: '10px',
-                    height: '50px'
+                    height: '50px',
+                    flexShrink: 0,
                 }}
             >
                 {paused ? '▶' : '⏸'}
@@ -189,10 +175,11 @@ export function GameUI({ onSelectTower, selectedTower, placedTower, onUpgrade, o
                     cursor: 'pointer',
                     fontWeight: 'bold',
                     marginRight: '15px',
-                    height: '50px'
+                    height: '50px',
+                    flexShrink: 0,
                 }}
             >
-                {isFastForward ? '⏩' : '▶'}
+                {isFastForward ? '1x Speed' : '2x Speed'}
             </button>
 
             {TOWER_DATA.map(t => (
@@ -207,6 +194,25 @@ export function GameUI({ onSelectTower, selectedTower, placedTower, onUpgrade, o
                     <span style={{ fontSize: '0.8rem', color: '#f1c40f' }}>${t.cost}</span>
                 </button>
             ))}
+
+            <div style={{ width: '1px', height: '40px', background: 'rgba(255,255,255,0.2)', margin: '0 10px' }}></div>
+
+            <button
+                onClick={onQuit}
+                style={{
+                    padding: '10px 15px',
+                    backgroundColor: '#c0392b',
+                    color: '#fff',
+                    border: 'none',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    fontWeight: 'bold',
+                    height: '50px',
+                    flexShrink: 0,
+                }}
+            >
+                Home
+            </button>
         </div>
     );
 }
