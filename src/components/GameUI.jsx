@@ -11,7 +11,7 @@ export function GameUI({ onSelectTower, selectedTower, placedTower, onUpgrade, o
             borderRadius: '8px',
             cursor: 'pointer',
             fontWeight: 'bold',
-            transform: isSelected ? 'scale(1.1)' : 'scale(1)',
+            fontWeight: 'bold',
             transition: 'all 0.2s',
             display: 'flex',
             flexDirection: 'column',
