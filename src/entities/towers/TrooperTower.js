@@ -53,7 +53,7 @@ export class TrooperTower extends Tower {
             // Draw Base
             ctx.beginPath();
             ctx.arc(this.x, this.y, 30, 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+            ctx.fillStyle = this.getLevelColor();
             ctx.fill();
             ctx.strokeStyle = '#fff';
             ctx.lineWidth = 2;

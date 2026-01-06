@@ -22,6 +22,17 @@ export class Tower {
         return Math.floor(this.baseCost * this.level * 0.75);
     }
 
+    getLevelColor() {
+        switch (this.level) {
+            case 1: return 'rgba(0, 0, 0, 0.5)'; // Default Dark
+            case 2: return 'rgba(46, 204, 113, 0.6)'; // Green (Uncommon)
+            case 3: return 'rgba(52, 152, 219, 0.6)'; // Blue (Rare)
+            case 4: return 'rgba(155, 89, 182, 0.6)'; // Purple (Epic)
+            case 5: return 'rgba(241, 196, 15, 0.6)'; // Gold (Legendary)
+            default: return 'rgba(231, 76, 60, 0.6)'; // Red (Error/Overload)
+        }
+    }
+
     upgrade() {
         if (this.level >= this.maxLevel) return false;
 

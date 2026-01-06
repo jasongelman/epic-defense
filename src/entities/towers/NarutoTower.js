@@ -49,7 +49,7 @@ export class NarutoTower extends Tower {
         // Draw Base
         ctx.beginPath();
         ctx.arc(this.x, this.y, 30, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+        ctx.fillStyle = this.getLevelColor();
         ctx.fill();
         ctx.strokeStyle = '#3498db'; // Blue Outline
         ctx.lineWidth = 3;
