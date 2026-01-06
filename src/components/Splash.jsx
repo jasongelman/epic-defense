@@ -12,7 +12,7 @@ export function Splash({ onStart, onDebug }) {
                     muted
                     playsInline
                     onEnded={() => setVideoPlaying(false)}
-                    src="/assets/Intro Video.mp4"
+                    src="assets/Intro Video.mp4"
                 />
             )}
             <div className="splash-content">
@@ -55,7 +55,7 @@ export function Splash({ onStart, onDebug }) {
                     transition: background 0.5s;
                 }
                 .splash-screen.show-bg {
-                    background: url('/assets/Splash Screen.png') no-repeat center center/cover;
+                    background: url('assets/Splash Screen.png') no-repeat center center/cover;
                 }
                 .splash-video {
                     position: absolute;
