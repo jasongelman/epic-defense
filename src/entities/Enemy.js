@@ -118,7 +118,7 @@ export class Enemy {
 
             // GOD POOP VISUALS
             if (this.type === 'god') {
-                const glow = Math.sin(Date.now() / 200) * 10;
+                const glow = Math.sin(this.animationTimer * 5) * 10;
                 ctx.beginPath();
                 ctx.arc(0, 0, 40 + glow, 0, Math.PI * 2);
                 ctx.fillStyle = 'rgba(241, 196, 15, 0.3)';
@@ -147,7 +147,9 @@ export class Enemy {
                     totalFrames = 8;
                 }
 
-                const frameIndex = Math.floor((Date.now() / 100) % totalFrames);
+                // Use animationTimer (seconds) for frame calculation. 
+                // 10 FPS = * 10. Previous was Date.now()/100 (100ms = 0.1s => 10 FPS)
+                const frameIndex = Math.floor((this.animationTimer * 10) % totalFrames);
 
                 const col = frameIndex % config.cols;
                 const row = Math.floor(frameIndex / config.cols);
