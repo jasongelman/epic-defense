@@ -130,20 +130,60 @@ export function GameCanvas({ mapConfig, onQuit }) {
         }
     };
 
+    const [layout, setLayout] = useState('horizontal'); // 'horizontal' (bottom UI) or 'vertical' (side UI)
+
+    // Layout Optimizer
+    useEffect(() => {
+        const checkLayout = () => {
+            const w = window.innerWidth;
+            const h = window.innerHeight;
+            const ratio = w / h;
+
+            // Game is 4:3 (1.33)
+            // Side UI needs ~160px width. Bottom UI needs ~160px height.
+
+            // Calculate potential game area for Side UI
+            const sideUIWidth = 160;
+            const sideCanvasW = w - sideUIWidth;
+            const sideCanvasH = h;
+            const sideScale = Math.min(sideCanvasW / 800, sideCanvasH / 600);
+
+            // Calculate potential game area for Bottom UI
+            const bottomUIHeight = 160;
+            const bottomCanvasW = w;
+            const bottomCanvasH = h - bottomUIHeight;
+            const bottomScale = Math.min(bottomCanvasW / 800, bottomCanvasH / 600);
+
+            // Choose the one that gives a larger game scale
+            if (sideScale > bottomScale * 1.1) { // Bias slightly towards bottom UI (standard) unless side is clearly better
+                setLayout('vertical');
+            } else {
+                setLayout('horizontal');
+            }
+        };
+
+        checkLayout();
+        window.addEventListener('resize', checkLayout);
+        return () => window.removeEventListener('resize', checkLayout);
+    }, []);
+
+
     return (
         <div style={{
             display: 'flex',
-            flexDirection: 'column',
+            flexDirection: layout === 'vertical' ? 'row' : 'column',
             width: '100vw',
             height: '100vh',
             overflow: 'hidden',
             backgroundColor: '#111'
         }}>
-            {/* Game Area: Flex 1 to take remaining space */}
+            {/* Game Area */}
             <div style={{
                 flex: 1,
-                width: '100%',
-                minHeight: 0, // Critical for nested flex scrolling/sizing
+                width: layout === 'vertical' ? 'auto' : '100%',
+                height: layout === 'vertical' ? '100%' : 'auto',
+                minHeight: 0,
+                minWidth: 0,
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -167,15 +207,18 @@ export function GameCanvas({ mapConfig, onQuit }) {
                 />
             </div>
 
-            {/* UI Area: Natural height at bottom */}
+            {/* UI Area */}
             <div style={{
-                width: '100%',
+                width: layout === 'vertical' ? 'auto' : '100%',
+                height: layout === 'vertical' ? '100%' : 'auto',
                 display: 'flex',
                 justifyContent: 'center',
-                paddingBottom: '20px',
+                alignItems: 'center', // Center vertically in side mode
+                padding: layout === 'vertical' ? '0 10px 0 0' : '0 0 20px 0',
                 zIndex: 10
             }}>
                 <GameUI
+                    layout={layout}
                     onSelectTower={handleSelectTower}
                     selectedTower={selectedTower}
                     placedTower={placedTower}

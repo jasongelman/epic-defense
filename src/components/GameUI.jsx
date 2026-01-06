@@ -1,6 +1,6 @@
 import { TOWER_DATA } from '../data/EncyclopediaData';
 
-export function GameUI({ onSelectTower, selectedTower, placedTower, onUpgrade, onSell, onDeselect, paused, onTogglePause, onToggleSpeed, isFastForward, onQuit }) {
+export function GameUI({ onSelectTower, selectedTower, placedTower, onUpgrade, onSell, onDeselect, paused, onTogglePause, onToggleSpeed, isFastForward, onQuit, layout = 'horizontal' }) {
     const getTowerStyle = (tower) => {
         const isSelected = selectedTower === tower.id;
         return {
