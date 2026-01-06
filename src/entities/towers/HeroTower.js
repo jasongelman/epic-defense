@@ -71,6 +71,13 @@ export class HeroTower extends Tower {
 
             // Draw Frame (Size 100x100, centered - slightly larger)
             ctx.drawImage(sprite, sx, sy, frameW, frameH, this.x - 50, this.y - 50, 100, 100);
+
+            // DEBUG: Render stats text
+            ctx.fillStyle = 'white';
+            ctx.font = '10px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(`F:${this.frame} W:${width} H:${height}`, this.x, this.y + 50);
+            ctx.fillText(sprite.complete ? 'Loaded' : 'Loading...', this.x, this.y + 60);
         } else {
             // Fallback
             ctx.fillStyle = this.color;
