@@ -21,15 +21,11 @@ export class HeroTower extends Tower {
     update(dt, enemies) {
         const event = super.update(dt, enemies);
 
-        // Animate only if active
-        if (this.target) {
-            this.frameTimer += dt;
-            if (this.frameTimer >= this.frameInterval) {
-                this.frameTimer = 0;
-                this.frame = (this.frame + 1) % this.totalFrames;
-            }
-        } else {
-            this.frame = 0; // Reset to idle
+        // Always animate to test sprite sheet
+        this.frameTimer += dt;
+        if (this.frameTimer >= this.frameInterval) {
+            this.frameTimer = 0;
+            this.frame = (this.frame + 1) % this.totalFrames;
         }
 
         if (event && event.type === 'shoot') {
@@ -57,6 +53,11 @@ export class HeroTower extends Tower {
             const width = sprite.naturalWidth || sprite.width;
             const height = sprite.naturalHeight || sprite.height;
 
+            if (width === 0 || height === 0) {
+                // console.warn("Hero sprite has 0 dimensions");
+                return;
+            }
+
             const frameW = width / cols;
             const frameH = height / rows;
 
@@ -65,6 +66,8 @@ export class HeroTower extends Tower {
 
             const sx = col * frameW;
             const sy = row * frameH;
+
+            // console.log(`Hero Draw: Frame ${this.frame} (${col},${row}) - SX: ${sx} SY: ${sy} W: ${frameW} H: ${frameH}`);
 
             // Draw Frame (Size 100x100, centered - slightly larger)
             ctx.drawImage(sprite, sx, sy, frameW, frameH, this.x - 50, this.y - 50, 100, 100);
