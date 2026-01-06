@@ -13,8 +13,10 @@ export const TOWER_DATA = [
         name: 'Hyrule Hero',
         description: 'Legendary hero with a sword. Deals AOE damage.',
         stats: { Damage: '5', Range: '80', Speed: '1.5/s' },
-        cost: 200,
-        sprite: 'assets/hero.png'
+        cost: 300,
+        sprite: 'assets/hyrule_hero.png',
+        frameConfig: { cols: 7, rows: 4 }, // 28 frames
+        stats: { damage: 'High', range: 'Melee', speed: 'Fast' }
     },
 
     {
