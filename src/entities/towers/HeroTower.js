@@ -5,11 +5,11 @@ export class HeroTower extends Tower {
     constructor(x, y) {
         super(x, y);
         this.name = "Hyrule Hero";
-        this.range = 100; // Melee/Short Range (was 80)
-        this.damage = 20; // High Damage (was 5)
+        this.range = 100; // Melee/Short Range
+        this.damage = 20; // High Damage
         this.fireRate = 1.5;
         this.color = '#2ecc71'; // Green
-        this.cost = 300; // Updated Cost (was 200)
+        this.cost = 300;
 
         // Animation State
         this.frame = 0;
@@ -21,11 +21,15 @@ export class HeroTower extends Tower {
     update(dt, enemies) {
         const event = super.update(dt, enemies);
 
-        // Always animate to test sprite sheet
-        this.frameTimer += dt;
-        if (this.frameTimer >= this.frameInterval) {
-            this.frameTimer = 0;
-            this.frame = (this.frame + 1) % this.totalFrames;
+        // Animate only if active
+        if (this.target) {
+            this.frameTimer += dt;
+            if (this.frameTimer >= this.frameInterval) {
+                this.frameTimer = 0;
+                this.frame = (this.frame + 1) % this.totalFrames;
+            }
+        } else {
+            this.frame = 0; // Reset to idle
         }
 
         if (event && event.type === 'shoot') {
@@ -53,10 +57,7 @@ export class HeroTower extends Tower {
             const width = sprite.naturalWidth || sprite.width;
             const height = sprite.naturalHeight || sprite.height;
 
-            if (width === 0 || height === 0) {
-                // console.warn("Hero sprite has 0 dimensions");
-                return;
-            }
+            if (width === 0 || height === 0) return;
 
             const frameW = width / cols;
             const frameH = height / rows;
@@ -67,17 +68,8 @@ export class HeroTower extends Tower {
             const sx = col * frameW;
             const sy = row * frameH;
 
-            // console.log(`Hero Draw: Frame ${this.frame} (${col},${row}) - SX: ${sx} SY: ${sy} W: ${frameW} H: ${frameH}`);
-
-            // DEBUG: Draw WHOLE image to verify source
-            ctx.drawImage(sprite, 0, 0, width, height, this.x - 50, this.y - 50, 100, 100);
-
-            // DEBUG: Render stats text
-            ctx.fillStyle = 'white';
-            ctx.font = '12px Arial';
-            ctx.textAlign = 'center';
-            ctx.fillText(`W:${width} H:${height}`, this.x, this.y + 50);
-            ctx.fillText(sprite.complete ? 'Loaded' : 'Loading...', this.x, this.y + 60);
+            // Draw Frame (Size 100x100, centered - slightly larger)
+            ctx.drawImage(sprite, sx, sy, frameW, frameH, this.x - 50, this.y - 50, 100, 100);
         } else {
             // Fallback
             ctx.fillStyle = this.color;
